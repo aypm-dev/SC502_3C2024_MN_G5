@@ -1,0 +1,41 @@
+
+.navbar {
+    background-color: #F5CBA7 !important; 
+}
+
+
+.navbar-nav {
+    display: flex; 
+    justify-content: center; 
+    width: 100%; 
+}
+
+
+.navbar-nav .nav-item:last-child {
+    margin-left: auto; 
+}
+
+/* Estilo del footer */
+footer {
+    background-color: #F5CBA7; 
+    padding: 20px 0; 
+    text-align: center; 
+}
+
+
+.btn.btn-primary {
+    background-color: #D6896F; 
+    border-color: #D6896F; 
+    color: white; 
+    border-radius: 5px; 
+    padding: 10px 20px; 
+    transition: background-color 0.3s ease;
+}
+
+
+.btn.btn-primary:hover {
+    background-color: #C65D4D; 
+    border-color: #C65D4D; 
+}
+
+
