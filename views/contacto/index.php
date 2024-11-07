@@ -18,15 +18,45 @@
     <!-- Contenedor principal -->
     <div class="container my-5">
         <div class="row align-items-center">
-            <div class="col-md-6 text-center text-md-start">
-                <h1 class="display-4">CONTACTO</h1>
-                <p class="lead">
-                    ES UN SISTEMA POR DEMANDA PARA TRADUCCIONES PARA EL LENGUAJE LESCO POR MEDIO DE VIDEO LLAMADAS CON
-                    NUESTROS EXPERTOS EN EL LENGUAJE, PARA NO PERDER CONTACTO CON LAS POBLACIONES VULNERABLES.
-                </p>
+
+            <h1>
+                Como contactar Lesconnect
+            </h1>
+
+            <p>
+                Contactanos por medio de nuestro correo, nuestras redes sociales, o por nuestro formulario!
+
+                <br><br>
+                <a href="">
+
+                    contacto@lesconnect.com
+                </a>
+                <br>
+                <br>
+            </p>
+
+            <div class="d-flex gap-2 mb-4">
+                <i class="fab fa-facebook fa-2xl"></i>
+                <i class="fab fa-twitter fa-2xl"></i>
+                <i class="fab fa-instagram fa-2xl"></i>
             </div>
-            <div class="col-md-6">
-                <img src="../assets/img/videocall.jpg" alt="Video llamada" class="img-fluid rounded">
+
+            <hr class="mt-2 ">
+
+
+            <h3>Formulario De Contacto</h3>
+
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+
+                <button type="button" class="btn btn-primary mt-2 " style="--bs-btn-font-size: .75rem;">
+                    Enviar mensaje!
+                </button>
             </div>
         </div>
     </div>

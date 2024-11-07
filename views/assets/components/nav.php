@@ -25,20 +25,21 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link" href="/proyect/views/dashboard">Dashboard</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="/proyect/views/nosotros">Acerca de nosotros</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/proyect/views/planes">Planes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/proyect/views/servicios">Servicios</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/proyect/views/nosotros">Acerca de nosotros</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="/proyect/views/contacto">Contacto</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/proyect/views/soporte">Soporte</a>
                 </li>
 
                 <li class="nav-item">
