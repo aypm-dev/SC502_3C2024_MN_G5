@@ -13,7 +13,7 @@ CREATE TABLE usuarios (
 );
 
 --  la tabla de traductores
-CREATE TABLE traductores (
+CREATE TABLE traductores (kjhkjhjkh
     id_traductor INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     especialidad VARCHAR(100) NOT NULL,
