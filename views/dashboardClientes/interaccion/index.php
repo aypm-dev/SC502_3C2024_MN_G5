@@ -23,26 +23,6 @@
 
     <?php include '../../assets/components/navDashboard.php'; ?>
 
-    <section class="container grid grid-cols-2 gap-4">
-    <form id="peerForm" >
-        <label class="flex flex-col">
-            <span>MY PEER ID</span>
-            <input name="userId" class="p-2 px-3 border-2 border-black">
-        </label>
-
-        <button type="submit" class="border-2 border-black p-2">Create Peer Client</button>
-    </form>
-
-
-    <form id="callForm" >
-        <label class="flex flex-col">
-            <span>ID TO CALL</span>
-            <input name="callerId" class="p-2 px-3 border-2 border-black">
-        </label>
-
-        <button type="submit" class="border-2 border-black p-2">Call User</button>
-    </form>
-    </section>
 
     <div class="relative container-fluid mt-4 mb-4">
         <!-- LOADING SCREEN -->
@@ -121,7 +101,7 @@
                             placeholder="(Mandar un mensaje)" class="w-100">
 
                         <button type="button" class="btn btn-outline-secondary">
-                                                                            <i class="bi bi-emoji-smile"></i>
+                            <i class="bi bi-emoji-smile"></i>
                         </button>
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-send"></i>
@@ -133,6 +113,11 @@
     </div>
 
     <?php include '../../assets/components/footer.php'; ?>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
+</body>
+
     <script>
         // @ts-check
 /**
@@ -145,85 +130,54 @@
  * @prop {string} user
  * @prop {string} message
  */
-
+// @ts-check
+const ID_PREFIX = "LESCONNECT-"
 
 let userId = "user-2-2"
+let traductorId = "user-2-2"
 let peerClient;
 
-let createdConnection = null;
-let receiveConnection = null;
+let connection = null;
 let createdCall = null;
 let receiveCall = null;
 /**@type {MediaStream | null} */
 let userStream = null;
 
-function closeCall() {
-	if (peerClient) peerClient.destroy();
-	if (createdConnection) createdConnection.close();
-	if (receiveConnection) receiveConnection.close();
-}
+
+$(document).ready(async () => {
+    window.addEventListener("beforeunload", closeCall)
 
 
-console.log("hello?")
+    console.log($('#clientesTabla'))
+    const urlParams = new URLSearchParams(window.location.search);
+    userId = ID_PREFIX + urlParams.get('id');
+	traductorId = urlParams.get('traductorId')? ID_PREFIX + urlParams.get('traductorId'): null;
 
-window.addEventListener("beforeunload", closeCall)
+	console.log(userId, traductorId)
+
+	createPeer();
+	await awaitPeer()
+
+	if (traductorId) {
+		await makeCall(userId);
+	} else {
+		await listenToCalls();
+	}
+});
+
 window.addEventListener("DOMContentLoaded", () => {
-	const peerForm = /**@type{HTMLFormElement}*/(document.getElementById("peerForm"))
-	/**@ts-ignore */
-	console.log(peerForm);
-
-	peerForm.addEventListener("submit", createPeer)
-	
-	const callForm = /**@type{HTMLFormElement}*/(document.getElementById("callForm"))
-	/**@ts-ignore */
-	callForm.addEventListener("submit", startCall)
-
 	const messageForm = /**@type{HTMLFormElement}*/(document.getElementById("messageForm"))
 	/**@ts-ignore */
 	messageForm.addEventListener("submit", sendMessage)
 })
 
 
-async function createPeer(event) {
-	console.log("CREATING PEEEEEEEEEEEEEEEEEEEEEER");
-	
-	event.preventDefault();
-	const form = event.target;
-	const formData = new FormData(form);
+async function createPeer() {
+	console.log("creating", userId)
+	if (!userId) { return; };
 
-	
-	const userIdValue = /**@type {string | null} */ (formData.get('userId'));
-	console.log("creating", userIdValue)
-	if (!userIdValue) { form.userId?.focus(); return };
-
-	peerClient = new Peer(userIdValue)//, {host: 'localhost', port: 9000});
-	userId = userIdValue;
-	console.log(peerClient, userId, "listening to calls")
-	await listenToCalls();
+	peerClient = new Peer(userId)
 }
-
-async function startCall(event) {
-	console.log("CALLING PEEEEEEEEEEEEEEEEEEEEEER");
-
-	if (!peerClient) {
-		alert("Peer Client Not Created, create it first")
-	}
-
-	event.preventDefault();
-	const form = event.target;
-	const formData = new FormData(form);
-
-	const callerId = /**@type {string | null} */ (formData.get('callerId'));
-	console.log("CALLING PEEEEEEEEEEEEEEEEEEEEEER", callerId);
-
-	if (!callerId) { form.callerId?.focus(); return };
-
-	console.log("Awating peer");
-	await awaitPeer()
-    console.log("Making call");
-	await makeACall(callerId);
-}
-
 
 async function awaitPeer() {
     if (peerClient.open) {
@@ -232,14 +186,16 @@ async function awaitPeer() {
 
 	return await new Promise((resolve) => {
 		peerClient.on('open', (id2) => {
-			resolve();
+			setTimeout(()=>{
+				resolve();
+			}, 1000)
 		});
 	});
 }
 
 
-async function makeACall(callerId) {
-    console.log("Making call 2", callerId);
+async function makeCall() {
+    console.log("Making call", userId);
 	const callerVideo = /**@type {HTMLVideoElement} */ (document.getElementById('callerVideo'));
 	const userVideo = /**@type {HTMLVideoElement} */ (document.getElementById('userVideo'));
 
@@ -250,37 +206,37 @@ async function makeACall(callerId) {
 
 	/**@type {CallMetadata} */
 	const metadata = {
-		user: 'user-1-1'
+		userId: userId,
+		nombre: "angel xd"
 	}
 
-    console.log("Calling", callerId)
-	createdConnection = peerClient.connect(callerId, {
+    console.log("Calling", traductorId)
+	connection = peerClient.connect(traductorId, {
 		metadata
 	});
-    console.log("Calling", callerId, createdConnection)
+    console.log("Calling 2", traductorId, connection)
 
-	createdConnection.on('open', async () => {
-        
+	connection.on('open', async (traductorMetadaData) => {
+        console.log(traductorMetadaData)
+	    showCallInterface(metadata)
+
 
 		// Receive messages
-		const peer1Stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-		createdCall = peerClient.call(callerId, peer1Stream);
+		const userStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+		createdCall = peerClient.call(traductorId, userStream);
 		userVideo.srcObject = userStream;
 
 		createdCall.on('stream', (remoteStream) => {
 			callerVideo.srcObject = remoteStream;
 		});
 
-		createdConnection.on('data', messageData => {
+		connection.on('data', messageData => {
 			displayMessage(messageData)
 		});
 	});
 }
 
 async function listenToCalls() {
-    console.log("listener awating peer")
-	await awaitPeer()
-
 
 	const callerVideo = /**@type {HTMLVideoElement} */ (document.getElementById('callerVideo'));
 	const userVideo = /**@type {HTMLVideoElement} */ (document.getElementById('userVideo'));
@@ -291,12 +247,12 @@ async function listenToCalls() {
 	}
 
     console.log("listener awating for connection")
-	peerClient.on('connection', (connection) => {
+	peerClient.on('connection', (connectionValue) => {
 		/**@type {CallMetadata} */
+		connection = connectionValue;
 		const metadata = connection.metadata;
-		receiveConnection = connection;
 
-		if (!confirm(`THIS USER IS CALLING YOU: ${metadata.user}`)) {
+		if (!confirm(`THIS USER IS CALLING YOU: ${metadata.nombre ?? ""}`)) {
 			connection.close();
 		}
 
@@ -304,7 +260,8 @@ async function listenToCalls() {
 			showCallInterface(metadata)
 
 			peerClient.on('call', async (callValue) => {
-				userStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                console.log(await window.mediaDevices.getDisplayMedia({ video: true }), "gettig the screen")
+				userStream = await window.mediaDevices.getDisplayMedia({ video: true }); //                await window.mediaDevices.getDisplayMedia({ video: true });
 				callValue.answer(userStream);
 				userVideo.srcObject = userStream;
 
@@ -335,7 +292,7 @@ function showCallInterface(metadata) {
 
 /** @param {SubmitEvent & { target: HTMLFormElement }} event */
 function sendMessage(event) {
-	if (!createdConnection) {
+	if (!connection) {
 		alert("ERROR MANDANDO MENSAJE, HUBO UN PROBLEMA CON LA CONEXION")
 	}
 
@@ -349,7 +306,8 @@ function sendMessage(event) {
 
 	/**@type{MessageMetadata} */
 	const messageData = { user: userId, message }
-	createdConnection?.send(messageData);
+    displayMessage({ user: userId, message })
+	connection?.send(messageData);
 	form.reset()
 }
 
@@ -362,10 +320,11 @@ function displayMessage(messageData) {
 	messageContainer.insertAdjacentHTML("afterbegin", messageHtml)
 }
 
-
+function closeCall() {
+	if (peerClient) peerClient.destroy();
+	if (connection) connection.close();
+}
 
 
     </script>
-</body>
-
 </html>
