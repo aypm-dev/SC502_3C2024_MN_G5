@@ -1,0 +1,2 @@
+Todos los traductores deberian tener un usuario con el mismo id, 
+para que sea posible seleccionar un usuario de tipo_usuario "traductor" y poder encontrar su respectivo traductor a ver si esta disponible

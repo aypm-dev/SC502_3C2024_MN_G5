@@ -1,6 +1,6 @@
 <?php
 
-require_once '/../db/Database.php';
+require_once '../db/Database.php';
 
 class VideoLlamadas
 {
@@ -28,7 +28,11 @@ class VideoLlamadas
 
     public function getAllFromClient($id_cliente)
     {
-        $query = "SELECT * FROM videollamadas WHERE id_cliente=?";
+        $query = "  SELECT videollamada.*, traductor.nombre AS nombre_traductor
+                    FROM videollamadas AS videollamada
+                    LEFT JOIN traductores AS traductor 
+                        ON videollamada.id_traductor = traductor.id_traductor
+                    WHERE videollamada.id_cliente = ?;";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$id_cliente]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -36,7 +40,11 @@ class VideoLlamadas
 
     public function getAllFromTranslator($id_traductor)
     {
-        $query = "SELECT * FROM videollamadas WHERE id_traductor=?";
+        $query = "  SELECT videollamada.*, usuario.nombre AS nombre_cliente
+                    FROM videollamadas AS videollamada
+                    LEFT JOIN usuarios AS usuario 
+                        ON videollamada.id_cliente = usuario.id_usuario
+                    WHERE videollamada.id_traductor = ?;";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$id_traductor]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
