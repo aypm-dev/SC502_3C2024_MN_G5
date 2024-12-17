@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Comparar Minutos - Admin</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
@@ -32,24 +30,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Example rows -->
-                                <tr>
+                                <tr data-minutos="75" data-paquete="Paquete Básico">
                                     <td>Paquete Básico</td>
                                     <td>75 minutos</td>
                                     <td>₡6,000</td>
-                                    <td><button class="btn btn-info btn-sm">Comparar</button></td>
+                                    <td><button class="btn btn-info btn-sm comparar">Comprar</button></td>
                                 </tr>
-                                <tr>
+                                <tr data-minutos="120" data-paquete="Paquete Intermedio">
                                     <td>Paquete Intermedio</td>
                                     <td>120 minutos</td>
                                     <td>₡10,000</td>
-                                    <td><button class="btn btn-info btn-sm">Comparar</button></td>
+                                    <td><button class="btn btn-info btn-sm comparar">Comprar</button></td>
                                 </tr>
-                                <tr>
+                                <tr data-minutos="300" data-paquete="Paquete Avanzado">
                                     <td>Paquete Avanzado</td>
                                     <td>5 horas</td>
                                     <td>₡20,000</td>
-                                    <td><button class="btn btn-info btn-sm">Comparar</button></td>
+                                    <td><button class="btn btn-info btn-sm comparar">Comprar</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -114,10 +111,41 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
     <script src="../assets/js/dashboardClientes/index.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+    <script>
+        $(document).ready(function() {
+            // Manejar el clic en el botón "Comparar"
+            $(".comparar").click(function() {
+                var minutos = $(this).closest('tr').data('minutos');
+                var paquete = $(this).closest('tr').data('paquete');
+                var id_usuario = 2; // Esto debe obtenerse dinámicamente, por ejemplo, del ID del usuario logueado
+
+                // Llamada AJAX al controlador
+                $.ajax({
+                    url: "../../../controllers/UserController.php?op=agregarminutosdiponibles",
+                    method: "POST",
+                    data: {
+                        minutos: minutos,
+                        id_usuario: id_usuario
+                    },
+                    success: function(response) {
+                        console.log(response)
+                        if (response === "1") {
+                            // Mostrar una alerta de éxito
+                            alert("¡Se han agregado " + minutos + " minutos al usuario para el paquete " + paquete + "!");
+                        } else {
+                            // Mostrar una alerta de error si la respuesta no es "true"
+                            alert("Hubo un error al agregar los minutos.");
+                        }
+                    },
+                    error: function(data) {
+                        console.log(data)
+                        alert("Error en la conexión con el servidor.");
+                    }
+                });
+            });
+        });
+    </script>
 </body>
-
 </html>
