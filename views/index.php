@@ -20,111 +20,76 @@
 
         <div class="row align-items-center">
             <div class="col-md-6 text-center text-md-start">
-                <h1 class="display-4">Bienvenidos a Lesconect</h1>
+                <h1 class="display-4 text-primary">Bienvenidos a Lesconect</h1>
                 <p class="lead">
-                    En Lesconect, nuestra misión es derribar las barreras de comunicación entre personas sordas y
-                    oyentes, facilitando el acceso a intérpretes de LESCO en cualquier momento y lugar.
+                    En Lesconect, contamos con años de experiencia brindando soluciones efectivas para romper las
+                    barreras de comunicación entre personas sordas y oyentes. Nuestra plataforma ofrece acceso a
+                    intérpretes de LESCO de manera rápida, eficiente y profesional, para que la comunicación nunca sea un
+                    obstáculo.
+                </p>
+                <p>
+                    Nos enorgullece ayudar a miles de usuarios a tener una comunicación fluida, segura y sin
+                    limitaciones. Únete a nuestra comunidad y disfruta de un servicio accesible en cualquier momento y
+                    lugar.
                 </p>
             </div>
             <div class="col-md-6">
-                <img src="./assets/img/landing.jpg" alt="Video llamada" class="img-fluid rounded">
+                <img src="./assets/img/landing.jpg" alt="Video llamada" class="img-fluid rounded shadow-lg" data-aos="fade-left">
             </div>
         </div>
-        <hr class="featurette-divider">
-    </div>
-    </div>
 
-    <!-- 
-    <div class="row featurette">
-          <div class="col-md-7">
-            <h2 class="featurette-heading fw-normal lh-1">Bienvenidos a Lesconect<span class="text-body-secondary"></span></h2>
-            <p class="lead">En Lesconect, nuestra misión es derribar las barreras de comunicación entre personas sordas y oyentes, facilitando el acceso a intérpretes de LESCO en cualquier momento y lugar.</p>
-          </div>
-          <div class="col-md-5">
-            <img src="./foto1.jpg" alt="">
-          </div>
+        <!-- Sección de registro con animación -->
+        <div class="row my-5 align-items-center">
+            <div class="col-md-6" data-aos="fade-right">
+                <h2 class="text-success">¡Únete a Lesconect hoy mismo!</h2>
+                <p>
+                    Regístrate ahora y empieza a disfrutar de la comodidad de tener intérpretes de LESCO disponibles
+                    al instante. No importa dónde estés, siempre tendrás acceso a la ayuda que necesitas para mejorar
+                    tu comunicación.
+                </p>
+                <a href="registro.php" class="btn btn-lg btn-danger shadow-sm">Regístrate ahora</a>
+            </div>
+            <div class="col-md-6">
+                <img src="./assets/img/register.png" alt="Registro" class="img-fluid rounded-circle shadow-lg" data-aos="zoom-in">
+            </div>
         </div>
-    
+
+        <!-- Beneficios con iconos -->
+        <div class="row text-center my-5">
+            <h2 class="mb-4">¿Por qué elegirnos?</h2>
+            <div class="col-md-4">
+                <i class="fas fa-users fa-3x text-primary"></i>
+                <h4 class="mt-3">Comunidad Global</h4>
+                <p>Conectamos personas de diferentes países y culturas, asegurando una comunicación inclusiva.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-clock fa-3x text-warning"></i>
+                <h4 class="mt-3">Disponible 24/7</h4>
+                <p>Accede a nuestros intérpretes en cualquier momento, sin importar la hora o el lugar.</p>
+            </div>
+            <div class="col-md-4">
+                <i class="fas fa-shield-alt fa-3x text-success"></i>
+                <h4 class="mt-3">Confianza y Seguridad</h4>
+                <p>Disfruta de una experiencia segura y confiable, con altos estándares de privacidad y calidad.</p>
+            </div>
+        </div>
+
         <hr class="featurette-divider">
 
-        <h3>Contactanos</h3>
-
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-
-            <button type="button" class="btn btn-primary"
-            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-                Enviar mensaje!
-            </button>
-        </div>
-    </div> -->
-
-
-
+    </div>
 
     <?php include './assets/components/footer.php'; ?>
 
 </body>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
+    
+<!-- AOS Animations Script -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+    AOS.init();
+</script>
 
 </html>
-
-
-
-
-
-
-<!-- <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="./index.css">
-</head> -->
-<!-- 
-<body>
-    <main>
-    
-        <hr class="featurette-divider">
-    
-        <div class="row featurette">
-          <div class="col-md-7">
-            <h2 class="featurette-heading fw-normal lh-1">Bienvenidos a Lesconect<span class="text-body-secondary"></span></h2>
-            <p class="lead">En Lesconect, nuestra misión es derribar las barreras de comunicación entre personas sordas y oyentes, facilitando el acceso a intérpretes de LESCO en cualquier momento y lugar.</p>
-          </div>
-          <div class="col-md-5">
-            <img src="./foto1.jpg" alt="">
-          </div>
-        </div>
-    
-        <hr class="featurette-divider">
-
-        <h3>Contactanos</h3>
-
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-          </div>
-          <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-
-            <<button type="button" class="btn btn-primary"
-            style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
-      Enviar mensaje!
-    </button>
-          </div>
-
-     
-    </main>
-    <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    
-</div>
-     -->
