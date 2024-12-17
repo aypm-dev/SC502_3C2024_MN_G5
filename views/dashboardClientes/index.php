@@ -21,8 +21,8 @@
             <aside class="col-md-5 p-3">
                 <div class="border border-dark rounded-3 bg-light p-3 mb-3">
                     <h5>Historial de llamadas</h5>
-                    <div class="table-responsive">
-                        <table id="historialTable" class="table table-striped table-bordered">
+                    <div class="table-responsive" style="min-height: 150px;">
+                        <table id="historialTable" class="table table-striped table-bordered w-100" style="table-layout: fixed;">
                             <thead>
                                 <tr>
                                     <th style="width: 30%;">Nombre Traductor</th>
@@ -32,13 +32,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Example rows -->
-                                <tr>
-                                    <td>Pedro Sánchez</td>
-                                    <td>2024-12-17 09:58:42</td>
-                                    <td>45 min</td>
-                                    <td>Cancelada</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -63,8 +56,8 @@
                 </div>
 
                 <div class="border border-dark rounded-3 bg-light p-3 mb-3">
-                    <h5>Solicitar servicio de traducción</h5>
-                    <a href="solicitar_traduccion.html" class="btn btn-success btn-block">Solicitar Traducción</a>
+                    <h5>Solicitar servicio de traducción.</h5>
+                    <button id="fetchTranslators" class="btn btn-success btn-block">Solicitar Traducción</button>
                 </div>
             </main>
         </div>
@@ -72,6 +65,7 @@
 
     <?php include '../assets/components/footer.php'; ?>
 </body>
+
 
 <!-- Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -83,3 +77,6 @@
     crossorigin="anonymous"></script>
 
 </html>
+
+<!-- SWEAT ALERT  -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -38,6 +38,7 @@ class User
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
     public function agregarminutosausuario($minutos,$id_usuario)
     {
         $query = "UPDATE usuarios
