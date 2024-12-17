@@ -5,7 +5,7 @@ class Database
     private $db_name = 'lesco_project';
     private $username = 'root';
     private $password = '';
-    private $conn;
+    public $conn;
 
     public function __construct()
     {
@@ -22,4 +22,14 @@ class Database
         return $this->conn->prepare($query);
     }
 }
-?>
+
+// LINEAS DE PRUEBA, DESCOMENTAR PARA PROBAR LA CONEXION CON LA BASE DE DATOS
+
+// $db = new Database();
+
+// echo var_dump($db->conn);
+// $resultado = $db->prepare("select * from videollamadas");
+// $resultado->execute();
+
+// echo var_dump($resultado);
+// echo var_dump($resultado->fetchAll());
