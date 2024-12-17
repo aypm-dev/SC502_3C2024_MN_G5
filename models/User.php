@@ -38,5 +38,14 @@ class User
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function agregarminutosausuario($minutos,$id_usuario)
+    {
+        $query = "UPDATE usuarios
+SET minutos = minutos + ?  -- Sumar 30 minutos, cambia el valor según lo que necesites
+WHERE id_usuario = ? ;  -- Cambia el id_usuario por el que desees actualizar";
+       $stmt = $this->db->prepare($query);
+       return $stmt->execute([$minutos,$id_usuario]);
+    
+    }
 }
 ?>
