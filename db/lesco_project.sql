@@ -81,10 +81,10 @@ DELETE FROM traductores WHERE id_traductor = 1;
 
 INSERT INTO videollamadas (id_cliente, id_traductor, duracion, estado)
 VALUES
-(1, 1, 30, 'completada'),
+(1, 2, 30, 'completada'),
 (2, 2, 45, 'cancelada');
 
 INSERT INTO evaluaciones (id_traductor, id_cliente, calificacion, comentario)
 VALUES
-(1, 1, 5, 'Excelente servicio'),
+(2, 1, 5, 'Excelente servicio'),
 (2, 2, 4, 'Muy bueno, pero podría mejorar en puntualidad');
