@@ -69,6 +69,16 @@ VALUES
 ('María López', 'LESC', 'disponible'),
 ('Pedro Sánchez', 'LESC', 'ocupado');
 
+# HACIENDO UN TRADUCTOR PARA EL USUARIO DE CARLOS GOMEZ, TODOS LOS TRADUCTORES DEBERIAN DE TENER UN USUARIO CON LA MISMA ID
+INSERT INTO traductores (id_traductor, nombre, especialidad, disponibilidad)
+VALUES
+(3, 'Carlos Gómez', 'LESC', 'disponible');
+
+
+# BORRANDO EL TRADUCTOR DE MARIA PORQUE NO TIENE UN USUARIO, TODOS LOS TRADUCTORES DEBERIAN DE TENER UN USUARIO CON LA MISMA ID
+DELETE FROM traductores WHERE id_traductor = 1;
+
+
 INSERT INTO videollamadas (id_cliente, id_traductor, duracion, estado)
 VALUES
 (1, 1, 30, 'completada'),
