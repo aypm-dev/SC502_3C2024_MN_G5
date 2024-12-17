@@ -1,0 +1,26 @@
+/*REGISTRARSE CSS*/
+.btn-login {
+    background-color: #D6896F;
+    color: white;
+}
+
+.btn-login:hover {
+    background-color: #B97756;
+    color: white;
+}
+
+.btn.btn-register {
+    background-color: black;
+    border-color: black;
+    color: white;
+
+}
+
+.text-center a {
+    color: #D6896F;
+    text-decoration: none;
+}
+
+.text-center a:hover {
+    text-decoration: underline;
+}
