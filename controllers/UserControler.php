@@ -1,6 +1,6 @@
 <?php
 
-require_once '/../models/User.php';
+require_once '../models/User.php';
 
 class UserController {
     private $userModel;
@@ -9,17 +9,29 @@ class UserController {
         $this->userModel = new User();
     }
 
-    public function createUser($data) {
-        if (isset($data['name'], $data['email'], $data['password'], $data['role_id'])) {
-            $hashedPassword = password_hash($data['password'], PASSWORD_BCRYPT);
-            return $this->userModel->create($data['name'], $data['email'], $hashedPassword, $data['role_id']);
+    public function registerUser($data) {
+        if (isset($data['name'], $data['email'], $data['password'], $data['confirm_password'], $data['role_id'])) {
+            if ($data['password'] === $data['confirm_password']) {
+                return $this->userModel->register($data['name'], $data['email'], $data['password'], $data['role_id']);
+            } else {
+                return ['status' => 'error', 'message' => 'Contraseña incorrecta.'];
+            }
         } else {
-            return ['status' => 'error', 'message' => 'Missing required fields.'];
+            return ['status' => 'error', 'message' => 'Rellene todos los espacios.'];
         }
     }
 
-    public function getAllUsers() {
-        return $this->userModel->getAll();
+    public function loginUser($data) {
+        if (isset($data['email'], $data['password'])) {
+            $user = $this->userModel->login($data['email'], $data['password']);
+            if ($user) {
+                return ['status' => 'success', 'user' => $user];
+            } else {
+                return ['status' => 'error', 'message' => 'Contraseña incorrecta.'];
+            }
+        } else {
+            return ['status' => 'error', 'message' => 'Rellene todos los espacios.'];
+        }
     }
 }
 ?>
