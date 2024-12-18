@@ -25,8 +25,8 @@ CREATE TABLE traductores (
 -- Crear la tabla de videollamadas
 CREATE TABLE videollamadas (
     id_videollamada INT AUTO_INCREMENT PRIMARY KEY,
-    id_cliente INT NOT NULL,
-    id_traductor INT, 
+    id_cliente INT NOT NULL, 
+    id_traductor INT,  
     fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     duracion INT NOT NULL, -- duración en minutos
     estado ENUM('pendiente', 'completada', 'cancelada') DEFAULT 'pendiente',
