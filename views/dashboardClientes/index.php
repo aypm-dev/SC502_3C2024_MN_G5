@@ -9,6 +9,8 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../assets/css/admin.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 
 <body>
@@ -37,10 +39,8 @@
                         </table>
                     </div>
                 </div>
-                <div class="border border-dark rounded-3 bg-light p-3 mb-3">
-                    <h5>Minutos de llamadas restantes:</h5>
-                    <p id="counter" class="display-4 mb-0"><span id="contadorMinutos">0</span> Minutos</p>
-                </div>
+                <?php include '../assets/components/contadorMinutos.php'; ?>
+
                 <div class="border border-dark rounded-3 bg-light p-3 mb-3">
                     <h5>Compra mas minutos</h5>
                     <a href="comprar_minutos.html" class="btn btn-primary btn-block">Comprar más minutos</a>
@@ -69,7 +69,6 @@
 
 
 <!-- Scripts -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 <script src="../assets/js/dashboardClientes/index.js"></script>

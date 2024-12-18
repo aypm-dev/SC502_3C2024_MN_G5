@@ -64,9 +64,9 @@ WHERE id_usuario = ? ;  -- Cambia el id_usuario por el que desees actualizar";
 
     public function getClientMinutesLeft($id_cliente)
     {
-        $query = "SELECT minutos FROM usuarios";
+        $query = "SELECT minutos FROM usuarios where id_usuario = ?";
         $stmt = $this->db->prepare($query);
-        $stmt->execute();
+        $stmt->execute([$id_cliente]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
