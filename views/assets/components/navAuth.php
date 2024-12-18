@@ -16,12 +16,17 @@
     }
 </style>
 
+<?php
+// Dynamically get the base URL
+$path_parts = explode('/', trim($_SERVER['SCRIPT_NAME'], '/')); // Split the path into parts
+$project_folder = $path_parts[0]; // First folder after 'localhost'
+
+// Create base URL dynamically
+$base_url = '/' . $project_folder . '/views';
+?>
+
 <nav class="navbar navbar-expand-lg">
     <div class="container">
-        <a class="navbar-brand text-black fw-bold" href="/proyect/views/">LESCONNECT</a>
-        <div class="ms-auto">
-            <a href="/proyect/views/login" class="btn btn-login me-2">Iniciar sesión</a>
-            <a href="/proyect/views/register" class="btn btn-register">Registrarse</a>
-        </div>
+        <a class="navbar-brand text-black fw-bold" href="<?= $base_url ?>/">LESCONNECT</a>
     </div>
 </nav>

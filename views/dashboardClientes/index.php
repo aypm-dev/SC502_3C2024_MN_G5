@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <?php include '../assets/components/navDashboard.php'; ?>
+    <?php include '../assets/components/navDashboardClientes.php'; ?>
 
     <!-- Contenedor principal -->
     <div class="container-fluid">
@@ -22,7 +22,8 @@
                 <div class="border border-dark rounded-3 bg-light p-3 mb-3">
                     <h5>Historial de llamadas</h5>
                     <div class="table-responsive" style="min-height: 150px;">
-                        <table id="historialTable" class="table table-striped table-bordered w-100" style="table-layout: fixed;">
+                        <table id="historialTable" class="table table-striped table-bordered w-100"
+                            style="table-layout: fixed;">
                             <thead>
                                 <tr>
                                     <th style="width: 30%;">Nombre Traductor</th>
@@ -38,7 +39,7 @@
                 </div>
                 <div class="border border-dark rounded-3 bg-light p-3 mb-3">
                     <h5>Minutos de llamadas restantes:</h5>
-                    <p id="counter" class="display-4 mb-0">120 Minutos</p>
+                    <p id="counter" class="display-4 mb-0"><span id="contadorMinutos">0</span> Minutos</p>
                 </div>
                 <div class="border border-dark rounded-3 bg-light p-3 mb-3">
                     <h5>Compra mas minutos</h5>

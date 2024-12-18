@@ -15,6 +15,16 @@
     }
 </style>
 
+<?php
+// Dynamically get the base URL
+$path_parts = explode('/', trim($_SERVER['SCRIPT_NAME'], '/')); // Split the path into parts
+$project_folder = $path_parts[0]; // First folder after 'localhost'
+
+// Create base URL dynamically
+$base_url = '/' . $project_folder . '/views';
+?>
+
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand text-black fw-bold" href="/proyect/views/">LESCONNECT DASHBOARD</a>
@@ -24,15 +34,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-              
+
                 <li class="nav-item">
                     <strong>
                         <a class="nav-link" href="/proyect/views/dashboard/interaccion">Interaccion/LLAMADA</a>
                     </strong>
                 </li>
-              
+
                 <li class="nav-item">
-                        <a class="nav-link" href="/proyect/views/dashboard/pagos">Methodo de pago</a>
+                    <a class="nav-link" href="/proyect/views/dashboard/pagos">Methodo de pago</a>
                 </li>
 
                 <li class="nav-item">
