@@ -5,10 +5,21 @@ require_once '../models/VideoLlamadas.php';
 switch ($_GET["op"]) {
     case 'agregarminutosdiponibles':
         $modelo = new User();
-        $traductores = $modelo->agregarminutosausuario($_POST["minutos"],$_POST["id_usuario"]);
+        $traductores = $modelo->agregarminutosausuario($_POST["minutos"], $_POST["id_usuario"]);
         echo true;
         break;
+    case 'obtenerClienteMinutos':
+        $modelo = new User();
+        $data = $modelo->getClientMinutesLeft($_POST["id_usuario"]);
 
+        if (count($data) > 0) {
+            $minutos = $data[0]['minutos'];
+            echo $minutos;
+        } else {
+            echo 0;
+        }
+
+        break;
     case 'obtenerLlamadasCliente':
         $modelo = new VideoLlamadas();
         $llamadas = $modelo->getAllFromClient($_POST["clienteId"]);

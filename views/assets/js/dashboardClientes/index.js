@@ -15,9 +15,25 @@ function redirectALlamadaConTraductor(result, id, traductorId) {
 $(document).ready(function () {
     console.log($('#clientesTabla'))
     const urlParams = new URLSearchParams(window.location.search);
-    const clienteId = urlParams.get('id');
+    const usuarioId = urlParams.get('id');
 
-    console.log(clienteId)
+    console.log(usuarioId)
+    $.ajax({
+        url: "../../controllers/UserController.php?op=obtenerClienteMinutos",
+        method: "POST",
+        data: {
+            id_usuario: usuarioId
+        },
+        success: function (response) {
+            console.log(response)
+            $("#contadorMinutos").text(response)
+        },
+        error: function (data) {
+            console.log(data)
+            alert("Error obteniendo minutos del servidor.");
+        }
+    });
+
 
     $('#historialTable').DataTable({
         "ajax": {
@@ -25,7 +41,7 @@ $(document).ready(function () {
             "dataSrc": "aaData",  // Matches the key from the JSON response
             "method": "post",
             "data": {
-                clienteId
+                clienteId: usuarioId
             }
         },
         "columns": [
@@ -61,7 +77,7 @@ $(document).ready(function () {
                         icon: 'success',
                         confirmButtonText: 'Conectar Con Traductor'
                     }).then((result) => {
-                        redirectALlamadaConTraductor(result, clienteId, traductor.id_usuario)
+                        redirectALlamadaConTraductor(result, usuarioId, traductor.id_usuario)
                     });
                 } else {
                     Swal.fire({

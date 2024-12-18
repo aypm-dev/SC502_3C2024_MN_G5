@@ -38,6 +38,7 @@ class VideoLlamadas
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+
     public function getAllFromTranslator($id_traductor)
     {
         $query = "  SELECT videollamada.*, usuario.nombre AS nombre_cliente
