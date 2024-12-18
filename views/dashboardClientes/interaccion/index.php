@@ -20,9 +20,7 @@
 </head>
 
 <body>
-
 	<?php include '../../assets/components/navDashboardClientes.php'; ?>
-
 
 	<div class="relative container-fluid mt-4 mb-4">
 		<!-- LOADING SCREEN -->

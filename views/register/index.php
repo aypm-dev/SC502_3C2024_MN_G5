@@ -55,8 +55,82 @@ $base_url = '/' . $project_folder . '/views';
     </div>
 
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        $("form").on("submit", function (e) {
+            e.preventDefault();
+
+            // Get form values
+            const nombre = $("#username").val();
+            const correo = $("#email").val();
+            const contraseña = $("#password").val();
+            const confirmarContraseña = $("#confirm-password").val();
+
+            // Check if passwords match
+            if (contraseña !== confirmarContraseña) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "Las contraseñas no coinciden. Por favor, verifica.",
+                });
+                return;
+            }
+
+            // Check for "tipoUsuario" in URL params
+            const urlParams = new URLSearchParams(window.location.search);
+            const tipoUsuario = urlParams.get("tipoUsuario") || "cliente";
+
+            // Send data to controller via AJAX
+            $.ajax({
+                url: "../../controllers/LoginController2.php?op=registrarUsuario",
+                method: "POST",
+                data: {
+                    nombre: nombre,
+                    correo: correo,
+                    contraseña: contraseña,
+                    tipo_usuario: tipoUsuario,
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Registro Exitoso",
+                            text: "¡Usuario registrado correctamente!",
+                        }).then(() => {
+                            // Redirect or refresh after success
+
+                            window.location.href = getBaseURL() + "views/login";
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error",
+                            text: "Ocurrió un error al registrar el usuario.",
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "No se pudo conectar al servidor.",
+                    });
+                },
+            });
+        });
+    });
+
+    function getBaseURL() {
+        const pathParts = window.location.pathname.split('/').filter(part => part); // Split and remove empty parts
+        const projectFolder = pathParts[0]; // First folder
+        return `/${projectFolder}/`;
+    }
+</script>
 
 </html>

@@ -4,10 +4,10 @@
 </div>
 
 <script async="false" defer>
-    $(document).ready(function () {
-        const urlParams = new URLSearchParams(window.location.search);
-        const usuarioId = urlParams.get('id');
+    $(document).ready(obtenerMinutos)
 
+    function obtenerMinutos() {
+        const usuarioId = <?php echo json_encode($_SESSION['user']['id_usuario']); ?>;
         console.log(getBaseURL())
 
         $.ajax({
@@ -17,7 +17,7 @@
                 id_usuario: usuarioId
             },
             success: function (response) {
-                console.log(response)
+                console.log("CONTADOR MINUTOS", response)
                 $("#contadorMinutos").text(response)
             },
             error: function (data) {
@@ -25,7 +25,7 @@
                 alert("Error obteniendo minutos del servidor.");
             }
         });
-    })
+    }
 
     function getBaseURL() {
         const pathParts = window.location.pathname.split('/').filter(part => part); // Split and remove empty parts

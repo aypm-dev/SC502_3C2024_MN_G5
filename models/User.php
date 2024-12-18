@@ -11,22 +11,32 @@ class User
         $this->db = new Database();
     }
 
-    public function register($name, $email, $password, $role_id)
+    public function register($name, $email, $password, $tipo_usuario)
     {
         $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-        $query = "INSERT INTO users (name, email, password, role_id) VALUES (?, ?, ?, ?)";
+        $query = "INSERT INTO usuarios (nombre, correo, contrasena, tipo_usuario) VALUES (?, ?, ?, ?)";
         $stmt = $this->db->prepare($query);
-        return $stmt->execute([$name, $email, $hashedPassword, $role_id]);
+        $usuario = $stmt->execute([$name, $email, $hashedPassword, $tipo_usuario]);
+
+        $lastUserId = $this->db->getLastInsertId();
+
+        if ($tipo_usuario === "traductor") {
+            $queryTraductor = "INSERT INTO traductores (id_traductor, nombre, especialidad, disponibilidad) VALUES (?, ?, ?, ?)";
+            $stmt = $this->db->prepare($queryTraductor);
+            $usuario = $stmt->execute([$lastUserId, $name, "LESC", 'disponible']);
+        }
+
+        return $usuario;
     }
 
     public function login($email, $password)
     {
-        $query = "SELECT * FROM users WHERE email = ?";
+        $query = "SELECT * FROM usuarios WHERE correo = ?";
         $stmt = $this->db->prepare($query);
         $stmt->execute([$email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($user && password_verify($password, $user['password'])) {
+        if ($user && password_verify($password, $user['contrasena'])) {
             return $user;
         }
         return null;

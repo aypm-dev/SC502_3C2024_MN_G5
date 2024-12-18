@@ -36,9 +36,9 @@ $base_url = '/' . $project_folder . '/views';
                     <input type="password" class="form-control" id="password" placeholder="Ingresa tu contraseña"
                         required>
                 </div>
-                <a class="nav-link text-center mt-3" href="<?= $base_url ?>/dashboardClientes" title="Cerrar sesión">
-                    <button disabled type="submit" class="btn btn-primary w-100">Ingresar</button>
-                </a>
+
+                <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+
 
                 <a class="nav-link text-center mt-3" href="<?= $base_url ?>/register" title="Cerrar sesión">
                     <i class="fas fa-right-to-bracket"></i> No tienes cuenta? Registarme
@@ -48,6 +48,70 @@ $base_url = '/' . $project_folder . '/views';
     </div>
 
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    $(document).ready(function () {
+        $("form").on("submit", function (e) {
+            e.preventDefault();
+
+            // Get form values
+            const correo = $("#email").val();
+            const contraseña = $("#password").val();
+
+            // Send data to controller via AJAX
+            $.ajax({
+                url: "../../controllers/LoginController2.php?op=login",
+                method: "POST",
+                data: {
+                    correo: correo,
+                    contraseña: contraseña,
+                },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response); // Log the response for debugging purposes
+
+                    if (response) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Inicio de Sesión Exitoso",
+                            text: `¡Bienvenido de nuevo ${response.nombre}!`,
+                        }).then(() => {
+                            if (response.tipo_usuario === "cliente") {
+                                window.location.href = getBaseURL() + "views/dashboardClientes";
+                            } else if (response.tipo_usuario === "traductor") {
+                                window.location.href = getBaseURL() + "views/dashboardTraductores";
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Error de Inicio de Sesión",
+                            text: "Correo o contraseña incorrectos.",
+                        });
+                    }
+                },
+                error: function () {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Error",
+                        text: "No se pudo conectar al servidor.",
+                    });
+                },
+            });
+        });
+    });
+
+    // Utility function to get base URL dynamically
+    function getBaseURL() {
+        const pathParts = window.location.pathname.split('/').filter(part => part); // Split and remove empty parts
+        const projectFolder = pathParts[0]; // First folder
+        return `/${projectFolder}/`;
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>

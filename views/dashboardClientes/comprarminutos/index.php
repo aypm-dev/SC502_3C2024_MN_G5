@@ -120,7 +120,6 @@
 
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
-    <script src="../assets/js/dashboardClientes/index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
@@ -131,7 +130,7 @@
             $(".comparar").click(function () {
                 var minutos = $(this).closest('tr').data('minutos');
                 var paquete = $(this).closest('tr').data('paquete');
-                var id_usuario = 2; // Esto debe obtenerse dinámicamente, por ejemplo, del ID del usuario logueado
+                const usuarioId = <?php echo json_encode($_SESSION['user']['id_usuario']); ?>;
 
                 // Llamada AJAX al controlador
                 $.ajax({
@@ -139,12 +138,15 @@
                     method: "POST",
                     data: {
                         minutos: minutos,
-                        id_usuario: id_usuario
+                        id_usuario: usuarioId
                     },
                     success: function (response) {
                         console.log(response)
                         if (response === "1") {
                             // Mostrar una alerta de éxito
+                            if (obtenerMinutos) {
+                                obtenerMinutos()
+                            }
                             alert("¡Se han agregado " + minutos + " minutos al usuario para el paquete " + paquete + "!");
                         } else {
                             // Mostrar una alerta de error si la respuesta no es "true"

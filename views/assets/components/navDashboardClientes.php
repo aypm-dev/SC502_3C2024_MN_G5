@@ -24,6 +24,16 @@ $project_folder = $path_parts[0]; // First folder after 'localhost'
 $base_url = '/' . $project_folder . '/views';
 ?>
 
+<?php
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['user'])) {
+    // Redirect to login page if session doesn't exist
+    header("Location: " . $base_url . "/login/");
+    exit();
+}
+?>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
