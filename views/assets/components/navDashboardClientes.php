@@ -53,7 +53,7 @@ if (!isset($_SESSION['user'])) {
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="/proyect/views/login" title="Cerrar sesión">
+                    <a class="nav-link" href="<?= $base_url ?>/logout" title="Cerrar sesión">
                         <i class="fas fa-sign-out-alt"></i> Cerrar sesión
                     </a>
                 </li>

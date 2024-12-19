@@ -11,6 +11,15 @@
     <link rel="stylesheet" href="./assets/css/index.css">
 </head>
 
+<?php
+// Dynamically get the base URL
+$path_parts = explode('/', trim($_SERVER['SCRIPT_NAME'], '/')); // Split the path into parts
+$project_folder = $path_parts[0]; // First folder after 'localhost'
+
+// Create base URL dynamically
+$base_url = '/' . $project_folder . '/views';
+?>
+
 <body>
 
     <?php include './assets/components/nav.php'; ?>
@@ -22,17 +31,21 @@
             <div class="col-md-6 text-center text-md-start">
                 <h1 class="display-4 text-primary mb-4 animated fadeInLeft">Bienvenidos a Lesconect</h1>
                 <p class="lead mb-4 animated fadeInRight" style="animation-delay: 0.5s;">
-                    En Lesconect, contamos con años de experiencia ayudando a personas sordas y oyentes a conectarse sin barreras. 
+                    En Lesconect, contamos con años de experiencia ayudando a personas sordas y oyentes a conectarse sin
+                    barreras.
                     Con nuestra plataforma, tendrás acceso inmediato a intérpretes de LESCO para cualquier situación.
                 </p>
                 <p class="animated fadeInRight" style="animation-delay: 1s;">
-                    ¡Con Lesconect, la comunicación es más fácil que nunca! Únete a nuestra comunidad y rompe las barreras de la comunicación.
+                    ¡Con Lesconect, la comunicación es más fácil que nunca! Únete a nuestra comunidad y rompe las
+                    barreras de la comunicación.
                 </p>
-                <a href="registro.php" class="btn btn-lg btn-danger mt-3 animated fadeInUp" style="animation-delay: 1.5s;">Regístrate ahora</a>
+                <a href="<?= $base_url ?>/register" class="btn btn-lg btn-danger mt-3 animated fadeInUp"
+                    style="animation-delay: 1.5s;">Regístrate ahora</a>
             </div>
             <div class="col-md-6">
                 <!-- Imagen principal con efecto parallax -->
-                <img src="./assets/img/landing.jpg" alt="Video llamada" class="img-fluid rounded shadow-lg" data-aos="fade-left">
+                <img src="./assets/img/landing.jpg" alt="Video llamada" class="img-fluid rounded shadow-lg"
+                    data-aos="fade-left">
             </div>
         </div>
 
@@ -44,7 +57,8 @@
             <div class="col-md-4">
                 <i class="fas fa-users fa-4x text-primary"></i>
                 <h4 class="mt-3">Comunidad Global</h4>
-                <p>Conectamos personas de diferentes partes del mundo para una comunicación inclusiva y sin fronteras.</p>
+                <p>Conectamos personas de diferentes partes del mundo para una comunicación inclusiva y sin fronteras.
+                </p>
             </div>
             <div class="col-md-4">
                 <i class="fas fa-clock fa-4x text-warning"></i>
@@ -54,7 +68,8 @@
             <div class="col-md-4">
                 <i class="fas fa-shield-alt fa-4x text-success"></i>
                 <h4 class="mt-3">Confianza y Seguridad</h4>
-                <p>Tu seguridad es nuestra prioridad. Disfruta de una experiencia confiable con altos estándares de privacidad.</p>
+                <p>Tu seguridad es nuestra prioridad. Disfruta de una experiencia confiable con altos estándares de
+                    privacidad.</p>
             </div>
         </div>
 
@@ -68,7 +83,8 @@
                     <img src="./assets/img/clientes1.jpg" class="card-img-top" alt="Usuario 1">
                     <div class="card-body">
                         <h5 class="card-title">jasmin Pérez</h5>
-                        <p class="card-text">"Lesconect ha cambiado mi vida. Ahora puedo comunicarme fácilmente con mis amigos sordos, sin ningún tipo de barrera."</p>
+                        <p class="card-text">"Lesconect ha cambiado mi vida. Ahora puedo comunicarme fácilmente con mis
+                            amigos sordos, sin ningún tipo de barrera."</p>
                     </div>
                 </div>
             </div>
@@ -77,7 +93,8 @@
                     <img src="./assets/img/clientes2.jpg" class="card-img-top" alt="Usuario 2">
                     <div class="card-body">
                         <h5 class="card-title">Ana Rodríguez</h5>
-                        <p class="card-text">"Es increíble tener acceso a intérpretes de LESCO en cualquier lugar. La calidad es excelente y la plataforma es muy fácil de usar."</p>
+                        <p class="card-text">"Es increíble tener acceso a intérpretes de LESCO en cualquier lugar. La
+                            calidad es excelente y la plataforma es muy fácil de usar."</p>
                     </div>
                 </div>
             </div>
@@ -86,7 +103,8 @@
                     <img src="./assets/img/clientes3.jpeg" class="card-img-top" alt="Usuario 3">
                     <div class="card-body">
                         <h5 class="card-title">amanda vegas</h5>
-                        <p class="card-text">"Gracias a Lesconect, he podido conectar con muchas personas. ¡Totalmente recomendable!"</p>
+                        <p class="card-text">"Gracias a Lesconect, he podido conectar con muchas personas. ¡Totalmente
+                            recomendable!"</p>
                     </div>
                 </div>
             </div>
@@ -98,7 +116,7 @@
         <div class="row text-center">
             <div class="col">
                 <h2>¡No esperes más, regístrate hoy y empieza a conectarte!</h2>
-                <a href="registro.php" class="btn btn-lg btn-success mt-4">¡Regístrate ahora!</a>
+                <a href="<?= $base_url ?>/register" class="btn btn-lg btn-success mt-4">¡Regístrate ahora!</a>
             </div>
         </div>
 
@@ -121,8 +139,8 @@
 <!-- Animaciones adicionales -->
 <script>
     // Agrega animaciones para los elementos de la página
-    document.addEventListener("DOMContentLoaded", function() {
-        document.querySelectorAll('.animated').forEach(function(element) {
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll('.animated').forEach(function (element) {
             element.classList.add('animate__animated', 'animate__fadeIn');
         });
     });

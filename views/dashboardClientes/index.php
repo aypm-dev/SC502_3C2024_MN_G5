@@ -80,7 +80,6 @@
         if (result.isConfirmed) {
             // Create URLSearchParams
             const params = new URLSearchParams();
-            params.set('id', id);
             params.set('traductorId', traductorId);
 
             // Redirect to /interraccion with search params

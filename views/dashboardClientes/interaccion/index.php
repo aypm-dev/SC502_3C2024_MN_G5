@@ -49,7 +49,8 @@
 							<i class="bi bi-person"></i>
 
 						</div>
-						<button class="blurredbackground rounded-3 bg-dark p-1 px-2 border-0 text-white shadow-sm"
+						<button id="favoriteButton"
+							class="blurredbackground rounded-3 bg-dark p-1 px-2 border-0 text-white shadow-sm"
 							style="--bs-bg-opacity: .5;">
 							<i class="bi bi-heart"></i>
 						</button>
@@ -70,7 +71,7 @@
 			<div class="col-lg-3 col-md-3 col-sm-12  d-flex flex-column">
 				<!-- Meeting Controls (top section of the right column) -->
 				<div class="d-flex gap-2 mb-2">
-					<button onclick="closeCall()" type="button" class="btn btn-danger">
+					<button id="endButton" type="button" class="btn btn-danger">
 						<i class="bi bi-telephone-fill"></i>
 						Terminar
 					</button>
@@ -111,47 +112,50 @@
 	</div>
 
 	<?php include '../../assets/components/footer.php'; ?>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 </body>
+
+<!-- <script>
+
+</script> -->
 
 <script>
 	// @ts-check
 	/**
 	 * @typedef CallMetadata
 	 * @prop {string} user
+	 * @prop {string} name
 	 */
 
 	/**
 	 * @typedef MessageMetadata
 	 * @prop {string} user
+	 * @prop {string} name
 	 * @prop {string} message
 	 */
 	// @ts-check
 	const ID_PREFIX = "LESCONNECT-"
 
-	let userId = "user-2-2"
-	let traductorId = "user-2-2"
-	let peerClient;
+	let userId = ID_PREFIX + <?php echo json_encode($_SESSION['user']['id_usuario']); ?>;
+	let userName = <?php echo json_encode($_SESSION['user']['nombre']); ?>;
+	let tipoUsuario = <?php echo json_encode($_SESSION['user']['tipo_usuario']); ?>;
 
-	let connection = null;
-	let createdCall = null;
-	let receiveCall = null;
+	let traductorId;
 	/**@type {MediaStream | null} */
 	let userStream = null;
 
+	let peerClient;
+	let connection = null;
+	let call = null;
+
+	let callEnded = false;
 
 	$(document).ready(async () => {
-		window.addEventListener("beforeunload", closeCall)
-
-
-		console.log($('#clientesTabla'))
 		const urlParams = new URLSearchParams(window.location.search);
-		userId = ID_PREFIX + urlParams.get('id');
 		traductorId = urlParams.get('traductorId') ? ID_PREFIX + urlParams.get('traductorId') : null;
-
-		console.log(userId, traductorId)
 
 		createPeer();
 		await awaitPeer()
@@ -161,17 +165,20 @@
 		} else {
 			await listenToCalls();
 		}
+
+		window.addEventListener("beforeunload", closeCall)
 	});
 
 	window.addEventListener("DOMContentLoaded", () => {
 		const messageForm = /**@type{HTMLFormElement}*/(document.getElementById("messageForm"))
-		/**@ts-ignore */
 		messageForm.addEventListener("submit", sendMessage)
+
+		const endButton = /**@type{HTMLButtonElement}*/(document.getElementById("endButton"))
+		endButton.addEventListener("click", closeCall)
 	})
 
 
 	async function createPeer() {
-		console.log("creating", userId)
 		if (!userId) { return; };
 
 		peerClient = new Peer(userId)
@@ -191,9 +198,7 @@
 		});
 	}
 
-
 	async function makeCall() {
-		console.log("Making call", userId);
 		const callerVideo = /**@type {HTMLVideoElement} */ (document.getElementById('callerVideo'));
 		const userVideo = /**@type {HTMLVideoElement} */ (document.getElementById('userVideo'));
 
@@ -202,40 +207,36 @@
 			return
 		}
 
-		/**@type {CallMetadata} */
-		const metadata = {
-			userId: userId,
-			nombre: "angel xd"
-		}
-
-		console.log("Calling", traductorId)
 		connection = peerClient.connect(traductorId, {
-			metadata
-		});
-		console.log("Calling 2", traductorId, connection)
+			metadata: {
+				userId: userId,
+				name: userName
+			}
+		}); // SENDING METADATA TO RECEIVER
 
 		connection.on('open', async (traductorMetadaData) => {
-			console.log(traductorMetadaData)
-			showCallInterface(metadata)
-
-
 			// Receive messages
 			const userStream = await navigator.mediaDevices.getDisplayMedia({ video: true });
-			createdCall = peerClient.call(traductorId, userStream);
+			call = peerClient.call(traductorId, userStream);
 			userVideo.srcObject = userStream;
 
-			createdCall.on('stream', (remoteStream) => {
+			call.on('stream', (remoteStream) => {
 				callerVideo.srcObject = remoteStream;
 			});
 
 			connection.on('data', messageData => {
+				if (messageData.type === "metadata") {
+					showCallInterface(messageData.name);
+					return;
+				}
 				displayMessage(messageData)
 			});
+
+			connection.on("close", closeCall)
 		});
 	}
 
 	async function listenToCalls() {
-
 		const callerVideo = /**@type {HTMLVideoElement} */ (document.getElementById('callerVideo'));
 		const userVideo = /**@type {HTMLVideoElement} */ (document.getElementById('userVideo'));
 
@@ -244,28 +245,44 @@
 			return
 		}
 
-		console.log("listener awating for connection")
 		peerClient.on('connection', (connectionValue) => {
 			/**@type {CallMetadata} */
 			connection = connectionValue;
-			const metadata = connection.metadata;
+			const callerMetadata = connection.metadata;
 
-			if (!confirm(`THIS USER IS CALLING YOU: ${metadata.nombre ?? ""}`)) {
-				connection.close();
-			}
+			connection.on("close", closeCall)
 
 			connection.on('open', function () {
-				showCallInterface(metadata)
+				showCallInterface(callerMetadata.name)
 
 				peerClient.on('call', async (callValue) => {
-					console.log(await window.mediaDevices.getDisplayMedia({ video: true }), "gettig the screen")
-					userStream = await window.mediaDevices.getDisplayMedia({ video: true }); //                await window.mediaDevices.getDisplayMedia({ video: true });
-					callValue.answer(userStream);
-					userVideo.srcObject = userStream;
+					Swal.fire({
+						title: 'Incoming Call',
+						text: `Un cliente ${callerMetadata.name ?? ""} te esta llamando! <br/><br/>Preparate para completar la traduccion.`,
+						icon: 'info',
+						showCancelButton: true,
+						confirmButtonText: 'Accept',
+						cancelButtonText: 'Decline',
+					}).then(async (result) => {
+						if (!result.isConfirmed) {
+							closeCall();
+							return;
+						}
 
-					receiveCall = callValue;
-					receiveCall.on('stream', (remoteStream) => {
-						callerVideo.srcObject = remoteStream;
+						connection.send({
+							userId: userId, // Replace with actual user ID
+							name: userName, // Replace with actual receiver name
+							type: "metadata"
+						}); // SENDING METADATA CALLER
+
+						call = callValue;
+						userStream = await navigator.mediaDevices.getDisplayMedia({ video: true }); //                await window.mediaDevices.getDisplayMedia({ video: true });
+						call.answer(userStream);
+						userVideo.srcObject = userStream;
+
+						call.on('stream', (remoteStream) => {
+							callerVideo.srcObject = remoteStream;
+						});
 					});
 				});
 
@@ -278,13 +295,17 @@
 	}
 
 	/**@param {MessageMetadata} metadata */
-	function showCallInterface(metadata) {
+	function showCallInterface(name) {
 		document.getElementById("callInterface")?.classList.remove("hidden")
 		document.getElementById("loadingInterface")?.classList.add("hidden")
 
+		if (!traductorId) {
+			document.getElementById("favoriteButton")?.classList.add("hidden")
+		}
+
 		const callerTag = document.getElementById("callerTag")
 		if (callerTag) {
-			callerTag.insertAdjacentHTML("beforeend", `<span>${metadata.user}</span>`)
+			callerTag.insertAdjacentHTML("beforeend", `<span>${name}</span>`)
 		}
 	}
 
@@ -298,13 +319,12 @@
 		const form = event.target;
 		const formData = new FormData(form);
 
-
 		const message = /**@type {string | null} */ (formData.get('message'));
 		if (!message) { form.message?.focus(); return };
 
 		/**@type{MessageMetadata} */
-		const messageData = { user: userId, message }
-		displayMessage({ user: userId, message })
+		const messageData = { user: userId, name: userName, message }
+		displayMessage(messageData)
 		connection?.send(messageData);
 		form.reset()
 	}
@@ -314,15 +334,44 @@
 		const messageContainer = document.getElementById('messageContainer');
 		if (!messageContainer) return
 
-		const messageHtml = `<div><strong>${messageData.user}:</strong> ${messageData.message}</div>`
+		const messageHtml = `<div><strong>${messageData.name}:</strong> ${messageData.message}</div>`
 		messageContainer.insertAdjacentHTML("afterbegin", messageHtml)
 	}
 
 	function closeCall() {
 		if (peerClient) peerClient.destroy();
 		if (connection) connection.close();
+		if (call) call.close();
+
+		if (!callEnded) {
+			console.log("ALERTING USER")
+			showCallEndedAlert();
+		}
+
+		callEnded = true
 	}
 
+	async function showCallEndedAlert() {
+		const result = await Swal.fire({
+			title: 'Llamada Terminada',
+			text: 'La llamada ha finalizado. ¡Gracias por usar el servicio! <br/><br/>Sera redirigido al Dashboard',
+			icon: 'success',
+			confirmButtonText: 'Entendido',
+		})
+
+		if (tipoUsuario === "cliente") {
+			window.location.href = getBaseURL() + "views/dashboardClientes";
+		} else if (tipoUsuario === "traductor") {
+			window.location.href = getBaseURL() + "views/dashboardClientes";
+		}
+	}
+
+	// Utility function to get base URL dynamically
+	function getBaseURL() {
+		const pathParts = window.location.pathname.split('/').filter(part => part); // Split and remove empty parts
+		const projectFolder = pathParts[0]; // First folder
+		return `/${projectFolder}/`;
+	}
 
 </script>
 
