@@ -13,14 +13,14 @@ class VideoLlamadas
 
     public function create($id_cliente, $id_traductor, $duracion, $estado)
     {
-        $query = "INSERT INTO videollamadas (id_cliente, id_traductor, duracion, estado) VALUES (?, ?, ?, ?),";
+        $query = "INSERT INTO videollamadas (id_cliente, id_traductor, duracion, estado) VALUES (?, ?, ?, ?);";
         $stmt = $this->db->prepare($query);
         return $stmt->execute([$id_cliente, $id_traductor, $duracion, $estado]);
     }
 
     public function createVideocall($id_cliente, $id_traductor, $duracion )
     {
-        $query = "INSERT INTO videollamadas (id_cliente, id_traductor, duracion, estado) VALUES (?, ?, ?, ?),";
+        $query = "INSERT INTO videollamadas (id_cliente, id_traductor, duracion, estado) VALUES (?, ?, ?, ?);";
         $stmt = $this->db->prepare($query);
         return $stmt->execute([$id_cliente, $id_traductor, $duracion, 'completada']);
     }

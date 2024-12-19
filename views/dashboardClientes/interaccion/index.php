@@ -411,6 +411,8 @@
 	}
 
 	async function showCallEndedAlert() {
+		crearLlamada();
+
 		const result = await Swal.fire({
 			title: 'Llamada Terminada',
 			text: 'La llamada ha finalizado. ¡Gracias por usar el servicio! <br/><br/>Sera redirigido al Dashboard',
@@ -423,6 +425,26 @@
 		} else if (tipoUsuario === "traductor") {
 			window.location.href = getBaseURL() + "views/dashboardTraductores";
 		}
+	}
+
+	function crearLlamada(){
+		// Llamada AJAX al controlador
+		$.ajax({
+			url: "../../../controllers/VideoLlamadasController.php?op=crearLlamada",
+			method: "POST",
+			data: {
+				idCliente: userId.replace(ID_PREFIX, ""),
+				idTraductor: traductorId.replace(ID_PREFIX, "")
+			},
+			success: function (response) {
+				console.log(response)
+				alert("¡Se han guardado la llamada!");
+			},
+			error: function (data) {
+				console.log(data)
+				alert("Error GUARDANDO LA LLAMADA.");
+			}
+		});
 	}
 
 	// Utility function to get base URL dynamically

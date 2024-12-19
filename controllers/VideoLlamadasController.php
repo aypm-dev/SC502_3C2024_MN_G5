@@ -47,7 +47,8 @@ switch ($_GET["op"]) {
                 "id_traductor" => $reg['id_traductor'],
                 "fecha" => $reg['fecha'],
                 "nombre_cliente" => $reg['nombre_cliente'],
-                "duracion" => $reg['duracion']
+                "duracion" => $reg['duracion'],
+                "estado" => $reg['estado']
             );
         }
         $resultados = array(
@@ -59,6 +60,20 @@ switch ($_GET["op"]) {
 
         echo json_encode($resultados);
 
+        break;
+    case 'crearLlamada':
+        try {
+            //code...
+        
+            $modelo = new VideoLlamadas();
+
+            $llamada = $modelo->createVideocall( (int) $_POST["idCliente"],  (int) $_POST["idTraductor"], rand(10, 30));
+            
+            echo var_dump($llamada);
+        } catch (\Throwable $th) {
+            echo var_dump($th);
+
+        }
         break;
 
     default:

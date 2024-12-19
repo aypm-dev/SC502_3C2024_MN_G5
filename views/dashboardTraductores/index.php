@@ -30,7 +30,7 @@
                             style="table-layout: fixed;">
                             <thead>
                                 <tr>
-                                    <th style="width: 30%;">Nombre Traductor</th>
+                                    <th style="width: 30%;">Nombre Ciente</th>
                                     <th style="width: 30%;">Fecha</th>
                                     <th style="width: 20%;">Duración</th>
                                     <th style="width: 20%;">Estado</th>
@@ -47,7 +47,7 @@
             <!-- Main Section -->
             <main class="col-md-7 p-3">
                 <div class="border border-dark rounded-3 bg-light p-3 mb-3">
-                    <h2 class="mb-4">Sección Principal</h2>
+                    <h2 class="mb-4">Administra tu Cuenta de Traductor</h2>
                     <p>En esta sección puedes gestionar tus videollamadas, ver el historial y consultar los minutos
                         que has traducido. Y mantenerte como disponible para ofrecer traducciones.</p>
                 </div>
@@ -80,11 +80,11 @@
 
         $('#historialTable').DataTable({
             "ajax": {
-                "url": "../../controllers/VideoLlamadasController.php?op=obtenerLlamadasCliente",  // Replace with the actual path
+                "url": "../../controllers/VideoLlamadasController.php?op=obtenerLlamadasTraductor",  // Replace with the actual path
                 "dataSrc": "aaData",  // Matches the key from the JSON response
                 "method": "post",
                 "data": {
-                    clienteId: usuarioId
+                    traductorId: usuarioId
                 }
             },
             "columns": [

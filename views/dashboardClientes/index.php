@@ -52,7 +52,7 @@
             <!-- Main Section -->
             <main class="col-md-7 p-3">
                 <div class="border border-dark rounded-3 bg-light p-3 mb-3">
-                    <h2 class="mb-4">Sección Principal</h2>
+                    <h2 class="mb-4">Administra tu Cuenta de Cliente</h2>
                     <p>En esta sección puedes gestionar tus videollamadas, ver el historial y consultar los minutos
                         restantes y comprar más minutos. O solicitar un servicio de traducción con uno de nuestros
                         traductores.</p>
